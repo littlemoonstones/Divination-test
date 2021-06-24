@@ -39,7 +39,7 @@ export class Gua64{
                     this.GuaNumber = i;
                     this.SettingNameAndOrder(this.GuaNumber);
                     // Console.WriteLine($"GuaNumber: {GuaNumber}");
-                    [this.AboveGua, this.BelowGua] = this.SplitToTwoGua(this.GuaNumber);
+                    [this.AboveGua, this.BelowGua] = Gua64.SplitToTwoGua(this.GuaNumber);
                     break;
                 }
             }
@@ -65,7 +65,7 @@ export class Gua64{
                 let guaNumber: number, b: boolean
                 [guaNumber, b] = args
                 this.GuaNumber = guaNumber;
-                [this.AboveGua, this.BelowGua] = this.SplitToTwoGua(this.GuaNumber);
+                [this.AboveGua, this.BelowGua] = Gua64.SplitToTwoGua(this.GuaNumber);
                 this.SettingNameAndOrder(guaNumber);
             }
         }
@@ -89,7 +89,7 @@ export class Gua64{
     }
     
     // 將一個64卦分成上下兩個卦
-    private  SplitToTwoGua(guaNumber: number): [Gua8, Gua8]{
+    public static SplitToTwoGua(guaNumber: number): [Gua8, Gua8]{
         let aboveNumber: number = guaNumber >> 3;
         let belowNumber: number = guaNumber & 7;
         return [new Gua8(aboveNumber, true), new Gua8(belowNumber, true)]
