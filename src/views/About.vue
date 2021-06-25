@@ -1,73 +1,200 @@
 <template>
   <div class="about container">
     <h1>This is an about page</h1>
-    <div v-if="presentGua" class="row mt-5 justify-content-center">
-      <Gua :guaInfo="presentGua" :location="location" />
-      <template v-if="location != 0">
-        <div class="col-1 arrow-center">
-          <div class="">
-            <i class="arrow right"></i>
-          </div>
+    <div class="row justify-content-center">
+      <div class="col-6 ball-group">
+        <div
+          v-for="(num, index) in numArray"
+          :key="index"
+          class="ball list-complete-item"
+        >
+          {{ num }}
         </div>
-        <Gua :guaInfo="futureGua" :location="location" />
-      </template>
-    </div>
-    <div class="row mt-5 justify-content-center">
-      <div class="col-3">
-        <button type="button" class="btn btn-primary" @click="getGua">得卦</button>
       </div>
     </div>
+    
+    <GuaComponent v-if="GuaResult" :GuaResult="GuaResult"/>
+
+    <div>{{ numArray }}</div>
+    <div class="row mt-5 justify-content-center">
+      <div class="col-3">
+        <button
+          v-if="numArray.length != 6"
+          type="button"
+          class="btn btn-primary"
+          @click="Toss"
+        >
+          Toss
+        </button>
+        <template v-else>
+          <button type="button" class="btn btn-danger" @click="Reset">
+            Reset
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            :disabled="GuaResult.isSaved"
+          >
+            Save
+          </button>
+        </template>
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">確認儲存</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div v-if="GuaResult" class="modal-body">
+                <div class="mb-3">
+                  <label for="exampleFormControlTextarea1" class="form-label"
+                    >Your Description</label
+                  >
+                  <textarea
+                    class="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="3"
+                    v-model="GuaResult.discription"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  @click="discription=''"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  @click="addHistory"
+                >
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row"></div>
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue"
+import { computed, defineComponent, onMounted, reactive, ref, watch } from "vue"
 import { Gua64 } from "../guaModel/gua/Gua64"
 import { IChing } from "../guaModel/IChing"
 import { toBinary } from "../js"
 import Gua from "../components/Gua/Gua.vue"
+import GuaComponent from "../components/Gua/GuaComponent.vue"
+import { GuaResultType } from "../type/GuaType"
+import { v4 as uuidV4 } from "uuid"
+import { openDB } from "idb"
+import moment from "moment"
+import { Modal } from "bootstrap"
 export default defineComponent({
   components: {
     Gua,
+    GuaComponent
   },
   setup() {
-    const iching = new IChing()
-    const presentGua = ref<Gua64>()
-    const futureGua = ref<Gua64>()
-    const location = ref<number>()
-    const presentGua_ = {
-      Name: "艮為山",
-      GuaNumber: 36,
-      GuaOrder: "52",
-      AboveGua: { Name: "艮", GuaNumber: 4, GuaOrder: "7" },
-      BelowGua: { Name: "艮", GuaNumber: 4, GuaOrder: "7" },
-    }
-    const futureGua_ = {
-      Name: "火地晉",
-      GuaNumber: 40,
-      GuaOrder: "35",
-      AboveGua: { Name: "離", GuaNumber: 5, GuaOrder: "3" },
-      BelowGua: { Name: "坤", GuaNumber: 0, GuaOrder: "8" },
-    }
-    const location_ = 12
+    // https://learnvue.co/2020/09/how-to-deploy-your-vue-app-to-github-pages/
+    const dbPromise = openDB("record", 1, {
+      upgrade(db) {
+        db.createObjectStore("save")
+      },
+    })
 
-    const locationArray = computed(() => {
-      if (location.value != undefined) {
-        return toBinary(location.value)
+    let modal: Modal | null
+    onMounted(() => {
+      const ele = document.getElementById("exampleModal")!
+      modal = new Modal(ele)
+    })
+    const isSaved = ref(false)
+    const addHistory = async () => {
+      modal!.hide()
+      const _ = (await dbPromise)
+        .transaction("save", "readwrite")
+        .objectStore("save")
+        .put(
+          {
+            id: GuaResult.value?.id,
+            date: GuaResult.value?.date,
+            presentGua: GuaResult.value?.presentGua,
+            futureGua: GuaResult.value?.futureGua,
+            varianceNumber: GuaResult.value?.varianceNumber,
+            discription: GuaResult.value?.discription,
+            isSaved: !GuaResult.value?.isSaved
+          },
+          GuaResult.value?.id
+        )
+      _.then((event) => {
+        modal!.hide()
+        GuaResult.value!.isSaved = true
+      })
+    }
+
+    const iching = new IChing()
+    const GuaResult = ref<GuaResultType|null>(null)
+
+    const varianceNumberArray = computed(() => {
+      if (GuaResult.value != null) {
+        return toBinary(GuaResult.value.varianceNumber)
       }
       return null
     })
 
-    const getGua = () => {
-      ;[presentGua.value, futureGua.value, location.value] =
-        iching.GetDivnationResult()
+    const numArray: number[] = reactive<number[]>([])
+    const Toss = () => {
+      if (numArray.length <= 6) {
+        numArray.push(IChing.GetRandomNumber())
+      }
+    }
+    watch(numArray, () => {
+      if (numArray.length == 6) {
+        const temp = IChing.ToGua64(numArray)
+        GuaResult.value = {
+          id: uuidV4(),
+          date: moment().format("MMMM Do YYYY, h:mm:ss a"),
+          presentGua: temp.PresentGua.GuaOrder,
+          futureGua: temp.FutureGua.GuaOrder,
+          varianceNumber: temp.varianceNumber,
+          discription: "",
+          isSaved: false
+        }
+      }
+    })
+    const Reset = () => {
+      GuaResult.value = null
+      numArray.splice(0)
+      isSaved.value = false
     }
     return {
-      presentGua,
-      futureGua,
-      location,
-      locationArray,
-      getGua,
+      GuaResult,
+      varianceNumberArray,
+      numArray,
+      isSaved,
       toBinary,
+      Reset,
+      Toss,
+      addHistory,
     }
   },
 })
@@ -77,22 +204,16 @@ export default defineComponent({
 * {
   // border: 1px solid gray;
 }
-.arrow {
-  border: solid black;
-  border-width: 0 5px 5px 0;
-  display: inline-block;
-  padding: 5px;
-  &.right {
-    transform: rotate(-45deg);
-  }
+.ball-group {
+  display: flex;
+  flex-direction: row;
+  justify-self: center;
 }
-.arrow-center {
-  position: relative;
-  div {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(0%, -50%);
-  }
+.ball {
+  width: 50px;
+  height: 50px;
+  border: 1px solid coral;
+  border-radius: 50%;
 }
+
 </style>

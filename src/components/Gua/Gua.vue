@@ -1,5 +1,5 @@
 <template>
-  <div class="col-4 col-md-2">
+  <div class="col">
     <div class="row">
       <div class="col-3 gua8 px-0">
         <div class="gua8-text">
@@ -14,7 +14,7 @@
           v-for="(item, index) in toBinary(guaInfo.GuaNumber)"
           :key="index"
           :gua="item"
-          :changed="locationArray[index]"
+          :changed="varianceNumberArray[index]"
         />
       </div>
     </div>
@@ -27,7 +27,7 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, PropType, reactive } from "vue"
-import { Gua64Type } from "@/type"
+import { Gua64Type } from "@/type/GuaType"
 import { toBinary } from "@/js"
 import GuaSingle from "./GuaSingle.vue"
 export default defineComponent({
@@ -36,18 +36,17 @@ export default defineComponent({
   },
   props: {
     guaInfo: Object as PropType<Gua64Type>,
-    location: Number,
+    varianceNumber: Number,
   },
   setup(props) {
-    console.log(props.location)
-    const locationArray = computed(() => {
-      if (props.location != undefined) {
-        return toBinary(props.location)
+    const varianceNumberArray = computed(() => {
+      if (props.varianceNumber != undefined) {
+        return toBinary(props.varianceNumber)
       }
       return null
     })
     return {
-      locationArray,
+      varianceNumberArray,
       toBinary,
     }
   },
