@@ -1,7 +1,7 @@
 {
-    "name": "vue-pwa-demo",
-    "short_name": "vue-pwa-demo",
-    "theme_color": "#4DBA87",
+    "name": "易經卜卦",
+    "short_name": "易經卜卦",
+    "theme_color": "#22252a",
     "icons": [
         {
             "src": "./img/icons/android-chrome-192x192.png",
