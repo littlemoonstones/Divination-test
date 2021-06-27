@@ -1,7 +1,7 @@
 <template>
-  <div class="col">
-    <div class="row">
-      <div class="col-3 gua8 px-0">
+  <div class="col col-md-2">
+    <div class="row justify-content-center">
+      <div class="col-1 gua8 px-0">
         <div class="gua8-text">
           <div>{{ guaInfo.AboveGua.Name }}</div>
         </div>
@@ -9,7 +9,7 @@
           <div>{{ guaInfo.BelowGua.Name }}</div>
         </div>
       </div>
-      <div class="col">
+      <div class="col gua-image">
         <GuaSingle
           v-for="(item, index) in toBinary(guaInfo.GuaNumber)"
           :key="index"
@@ -18,8 +18,8 @@
         />
       </div>
     </div>
-    <div class="row mt-2">
-      <div class="col gua-title text-end fs-6 pe-2 pe-md-3">
+    <div class="row justify-content-center mt-2">
+      <div class="offset-1 col gua-title text-center fs-6">
         #{{ guaInfo.GuaOrder }} {{ guaInfo.Name }}
       </div>
     </div>
@@ -60,6 +60,9 @@ export default defineComponent({
 .gua8 {
   height: auto;
 }
+.gua-image{
+  max-width: 100px;
+}
 .gua8-text {
   position: relative;
   width: 100%;
@@ -67,14 +70,14 @@ export default defineComponent({
     position: absolute;
     top: 50%;
     right: 5px;
-    transform: translateY(-50%);
+    transform: translateY(-45%);
+    margin-top: 2px;
     color: green;
   }
   height: 45%;
 }
 .gua-title {
   padding: 0;
-  // padding-right: 5px;
   color: blue;
 }
 </style>

@@ -1,23 +1,23 @@
 <template>
   <div class="about container">
-    <h1>This is an about page</h1>
     <div class="row justify-content-center">
-      <div class="col-6 ball-group">
+      <div class="col-md-6 ball-group d-flex justify-content-center">
         <div
           v-for="(num, index) in numArray"
           :key="index"
-          class="ball list-complete-item"
+          class="mx-1 ball list-complete-item"
         >
-          {{ num }}
+          <div>
+            {{ num }}
+          </div>
         </div>
       </div>
     </div>
-    
-    <GuaComponent v-if="GuaResult" :GuaResult="GuaResult"/>
 
-    <div>{{ numArray }}</div>
+    <GuaComponent v-if="GuaResult" :GuaResult="GuaResult" />
+
     <div class="row mt-5 justify-content-center">
-      <div class="col-3">
+      <div class="col-6 col-md-3" style="text-align: center;">
         <button
           v-if="numArray.length != 6"
           type="button"
@@ -27,12 +27,12 @@
           Toss
         </button>
         <template v-else>
-          <button type="button" class="btn btn-danger" @click="Reset">
+          <button type="button" class="btn btn-danger mx-1" @click="Reset">
             Reset
           </button>
           <button
             type="button"
-            class="btn btn-primary"
+            class="btn btn-primary mx-1"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
             :disabled="GuaResult.isSaved"
@@ -77,7 +77,7 @@
                   type="button"
                   class="btn btn-secondary"
                   data-bs-dismiss="modal"
-                  @click="discription=''"
+                  @click="discription = ''"
                 >
                   Close
                 </button>
@@ -110,9 +110,10 @@ import { openDB } from "idb"
 import moment from "moment"
 import { Modal } from "bootstrap"
 export default defineComponent({
+  name: "Divination",
   components: {
     Gua,
-    GuaComponent
+    GuaComponent,
   },
   setup() {
     // https://learnvue.co/2020/09/how-to-deploy-your-vue-app-to-github-pages/
@@ -141,7 +142,7 @@ export default defineComponent({
             futureGua: GuaResult.value?.futureGua,
             varianceNumber: GuaResult.value?.varianceNumber,
             discription: GuaResult.value?.discription,
-            isSaved: !GuaResult.value?.isSaved
+            isSaved: !GuaResult.value?.isSaved,
           },
           GuaResult.value?.id
         )
@@ -152,7 +153,7 @@ export default defineComponent({
     }
 
     const iching = new IChing()
-    const GuaResult = ref<GuaResultType|null>(null)
+    const GuaResult = ref<GuaResultType | null>(null)
 
     const varianceNumberArray = computed(() => {
       if (GuaResult.value != null) {
@@ -172,12 +173,12 @@ export default defineComponent({
         const temp = IChing.ToGua64(numArray)
         GuaResult.value = {
           id: uuidV4(),
-          date: moment().format("MMMM Do YYYY, h:mm:ss a"),
+          date: moment().format("YYYY/MM/DD, h:mm:ss a"),
           presentGua: temp.PresentGua.GuaOrder,
           futureGua: temp.FutureGua.GuaOrder,
           varianceNumber: temp.varianceNumber,
           discription: "",
-          isSaved: false
+          isSaved: false,
         }
       }
     })
@@ -212,8 +213,18 @@ export default defineComponent({
 .ball {
   width: 50px;
   height: 50px;
-  border: 1px solid coral;
+  // border: 1px solid coral;
+  background: greenyellow;
   border-radius: 50%;
+  position: relative;
+  div{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-weight: bold;
+    // text-align: center;
+  }
 }
-
 </style>

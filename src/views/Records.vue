@@ -1,7 +1,7 @@
 <template>
   <div id="save" class="container">
     <div v-if="items != null" class="row">
-      <table class="table table-hover">
+      <table class="table table-hover text-center">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -26,7 +26,11 @@
         </tbody>
       </table>
     </div>
-    <button class="btn btn-secondary" @click="clearAll">清除所有資料</button>
+    <div class="row justify-content-center">
+      <div class="col-auto">
+        <button class="btn btn-secondary" @click="clearAll">清除所有資料</button>
+      </div>
+    </div>
     <div
       class="modal fade"
       id="GuaPanel"
@@ -34,7 +38,7 @@
       aria-labelledby="GuaPanelLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-xl">
+      <div class="modal-dialog modal-lg">
         <div v-if="GuaResult != null" class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="GuaPanelLabel">{{ GuaResult.date }}</h5>
@@ -71,6 +75,7 @@ import { Modal } from "bootstrap"
 import GuaComponent from "@/components/Gua/GuaComponent.vue"
 
 export default defineComponent({
+  name: "Records",
   components: {
     GuaComponent,
   },
@@ -95,8 +100,8 @@ export default defineComponent({
         })
         .then((d) => {
           d.sort((a: GuaResultType, b: GuaResultType): number => {
-            let _a = moment(a.date, "MMMM Do YYYY, h:mm:ss a")
-            let _b = moment(b.date, "MMMM Do YYYY, h:mm:ss a")
+            let _a = moment(a.date, "YYYY/MM/DD, h:mm:ss a")
+            let _b = moment(b.date, "YYYY/MM/DD, h:mm:ss a")
             return _b.diff(_a)
           })
           return (items.value = d)

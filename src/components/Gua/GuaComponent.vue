@@ -1,9 +1,9 @@
 <template>
-  <div v-if="presentGua" class="row mt-5">
+  <div v-if="presentGua" class="row mt-5 justify-content-center">
     <div class="row justify-content-center">
       <Gua :guaInfo="presentGua" :varianceNumber="varianceNumber" />
       <template v-if="varianceNumber != 0">
-        <div class="col-1 arrow-center">
+        <div class="col-2 col-md-1 arrow-center">
           <div class="">
             <i class="arrow right"></i>
           </div>
@@ -85,7 +85,7 @@ export default defineComponent({
   div {
     position: absolute;
     top: 40%;
-    left: 50%;
+    left: 40%;
     transform: translate(0%, -50%);
   }
 }
