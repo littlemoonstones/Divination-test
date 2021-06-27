@@ -17,7 +17,7 @@
     <GuaComponent v-if="GuaResult" :GuaResult="GuaResult" />
 
     <div class="row mt-5 justify-content-center">
-      <div class="col-6 col-md-3" style="text-align: center;">
+      <div class="col col-xs-6 col-md-3" style="text-align: center;">
         <button
           v-if="numArray.length != 6"
           type="button"

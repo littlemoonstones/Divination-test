@@ -1,5 +1,5 @@
 <template>
-  <div class="col col-md-2">
+  <div class="col col-md-3 col-lg-2">
     <div class="row justify-content-center">
       <div class="col-1 gua8 px-0">
         <div class="gua8-text">
