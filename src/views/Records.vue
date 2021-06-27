@@ -1,7 +1,8 @@
 <template>
   <div id="save" class="container">
     <div v-if="items != null" class="row">
-      <table class="table table-hover text-center">
+      <div class="col">
+        <table class="table table-hover text-center">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -25,6 +26,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
     <div class="row justify-content-center">
       <div class="col-auto">
