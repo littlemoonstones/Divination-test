@@ -1,5 +1,5 @@
 <template>
-  <div v-if="presentGua" class="row mt-5 justify-content-center">
+  <div v-if="presentGua" class="row my-4 my-md-5 justify-content-center">
     <div class="row justify-content-center">
       <Gua :guaInfo="presentGua" :varianceNumber="varianceNumber" />
       <template v-if="varianceNumber != 0">
@@ -12,32 +12,50 @@
       </template>
     </div>
     <template v-if="GuaResult.isSaved">
-    <div class="row justify-content-center">
-      <div class="mb-3 row">
-        <label for="date" class="col-sm-2 col-form-label">Date</label>
-        <div class="col-sm-10">
-          <input
-            type="text"
-            readonly
-            class="form-control-plaintext"
-            id="date"
-            :value="GuaResult.date"
-          />
-        </div>
-        <div class="mb-3 row">
-          <label for="exampleFormControlTextarea1" class="form-label"
-            >Discription</label
-          >
-          <textarea
-            class="form-control"
-            id="exampleFormControlTextarea1"
-            rows="3"
-            v-model="GuaResult.discription"
-            readonly
-          ></textarea>
+      <div class="row my-2 my-md-3">
+        <div class="col">
+          <div class="row justify-content-center">
+            <div class="col-auto text-end">本卦:</div>
+            <div class="col-auto">
+              <a :href="link1" target="_blank">link</a>
+            </div>
+          </div>
+          <template v-if="varianceNumber != 0">
+            <div class="row justify-content-center">
+              <div class="col-auto text-end">變卦:</div>
+              <div class="col-auto">
+                <a :href="link2" target="_blank">link</a>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
-    </div>
+      <div class="row justify-content-center">
+        <div class="mb-3 row">
+          <label for="date" class="col-sm-2 col-form-label">Date</label>
+          <div class="col-sm-10">
+            <input
+              type="text"
+              readonly
+              class="form-control-plaintext"
+              id="date"
+              :value="GuaResult.date"
+            />
+          </div>
+          <div class="mb-3 row">
+            <label for="exampleFormControlTextarea1" class="form-label"
+              >Discription</label
+            >
+            <textarea
+              class="form-control"
+              id="exampleFormControlTextarea1"
+              rows="3"
+              v-model="GuaResult.discription"
+              readonly
+            ></textarea>
+          </div>
+        </div>
+      </div>
     </template>
   </div>
 </template>
@@ -61,11 +79,20 @@ export default defineComponent({
     const presentGua = ref<Gua64>(new Gua64(props.GuaResult!.presentGua))
     const futureGua = ref<Gua64>(new Gua64(props.GuaResult!.futureGua))
     const varianceNumber = ref<number>(props.GuaResult!.varianceNumber)
-
+    
+    const link1 = ref<string>("")
+    const link2 = ref<string>("")
+    const parseLink = (guaOrder: string)=>{
+      return `https://www.golla.tw/sm/64gua/${42257-parseInt(guaOrder)}.html`
+    }
+    link1.value = parseLink(presentGua.value.GuaOrder)
+    link2.value = parseLink(futureGua.value.GuaOrder)
     return {
       presentGua,
       futureGua,
       varianceNumber,
+      link1,
+      link2
     }
   },
 })
