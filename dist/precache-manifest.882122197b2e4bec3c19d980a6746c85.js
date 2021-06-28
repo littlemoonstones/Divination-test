@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6a36158a7eac8415d0df",
-    "url": "/Divination-test/css/about.313c659d.css"
+    "revision": "f2a28e003e1d2f201c6b",
+    "url": "/Divination-test/css/about.8d98fd51.css"
   },
   {
-    "revision": "35ef5b28ab243af6b199",
+    "revision": "4789eae9bea6542cf756",
     "url": "/Divination-test/css/app.dd45d844.css"
   },
   {
@@ -16,16 +16,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Divination-test/img/background.d86acd01.jpg"
   },
   {
-    "revision": "0ce53b093278c544fa744637a2774e71",
+    "revision": "7ee867fba79dcc15b5549ce1aa93536b",
     "url": "/Divination-test/index.html"
   },
   {
-    "revision": "6a36158a7eac8415d0df",
-    "url": "/Divination-test/js/about.bf1d44c9.js"
+    "revision": "f2a28e003e1d2f201c6b",
+    "url": "/Divination-test/js/about.5f2c4492.js"
   },
   {
-    "revision": "35ef5b28ab243af6b199",
-    "url": "/Divination-test/js/app.ef89cdbd.js"
+    "revision": "4789eae9bea6542cf756",
+    "url": "/Divination-test/js/app.18867ce0.js"
   },
   {
     "revision": "29b2d14d226020f4e6a9",
