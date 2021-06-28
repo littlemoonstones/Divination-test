@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
       <Gua :guaInfo="GuaResult.PresentGua" :varianceNumber="GuaResult.varianceNumber" />
       <template v-if="GuaResult.varianceNumber != 0">
-        <div class="col-2 col-md-2 col-lg-1 arrow-center">
+        <div class="col-auto col-md-2 arrow-center">
           <div class="">
             <i class="arrow right"></i>
           </div>
@@ -14,7 +14,7 @@
     <template v-if="GuaResult.PresentGua">
       <div class="row my-2 my-md-3">
         <div class="col">
-          <div class="row justify-content-center">
+          <div class="row justify-content-center mb-2">
             <div class="col-auto text-end">本卦:</div>
             <div class="col-auto">
               <a :href="parseLink(GuaResult.PresentGua.GuaOrder)" target="_blank">link</a>

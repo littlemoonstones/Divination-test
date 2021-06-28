@@ -1,14 +1,14 @@
 <template>
   <template v-if=" gua ==='1' ">
-    <div class="row gua" :class="{ changed: changed=='1' }">
-      <div class="col"></div>
+    <div class="gua" :class="{ changed: changed=='1' }">
+      <div class="single"></div>
     </div>
   </template>
   <template v-else>
-    <div class="row gua" :class="{ changed: changed=='1'  }">
-      <div class="col"></div>
-      <div class="col-1 blank"></div>
-      <div class="col"></div>
+    <div class="gua" :class="{ changed: changed=='1'  }">
+      <div class="double"></div>
+      <div class="blank"></div>
+      <div class="double"></div>
     </div>
   </template>
 </template>
@@ -23,8 +23,10 @@ export default defineComponent({
 })
 </script>
 <style lang="scss" scoped>
-.gua {
+.gua{
     margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
   div {
     background: black;
     border-radius: 15px;
@@ -32,6 +34,13 @@ export default defineComponent({
   }
   .blank {
     background: transparent;
+    min-width: 15px;
+  }
+  .single{
+    width: 100%;
+  }
+  .double{
+    width: 50%
   }
 
   &.changed {

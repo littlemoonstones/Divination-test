@@ -1,16 +1,18 @@
 <template>
   <div class="container-fluid py-5 p-md-5 jumbotron text-white">
-    <h1 class="display-5 fw-bold">易經卜卦</h1>
-    <p class="col-md-8 fs-4">專心想著問題，開始卜卦</p>
+    <div class="p-2 py-md-5">
+      <h1 class="display-5 fw-bold">易經卜卦</h1>
+      <p class="col-md-8 fs-4">無事不占，不動不占</p>
 
-    <router-link
-      tag="button"
-      class="btn btn-outline-light"
-      type="button"
-      :to="{ name: 'IChing' }"
-      replace
-      >開始卜卦
-    </router-link>
+      <router-link
+        tag="button"
+        class="btn btn-outline-light"
+        type="button"
+        :to="{ name: 'IChing' }"
+        replace
+        >開始卜卦
+      </router-link>
+    </div>
   </div>
   <div class="home container">
     <div class="p-5 mb-4 rounded-3"></div>
@@ -32,6 +34,6 @@ export default defineComponent({
 .jumbotron {
   background-image: url("../assets/background.jpg");
   background-size: cover;
-  // min-height: 40vh; 
+  background-position-y: center;
 }
 </style>

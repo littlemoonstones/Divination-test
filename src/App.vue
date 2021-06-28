@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <router-link class="navbar-brand" :to="{ name: 'Home' }" replace
-        >易經占卜</router-link
+        >易經</router-link
       >
       <button
         class="navbar-toggler"
@@ -54,6 +54,10 @@ export default defineComponent({
       {
         name: "Records",
         text: "記錄",
+      },
+      {
+        name: "64gua",
+        text: "六十四卦",
       },
     ])
     return {

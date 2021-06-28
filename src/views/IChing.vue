@@ -1,5 +1,9 @@
 <template>
-  <div class="about container">
+  <div class="container pt-4">
+    <div class="row py-2 py-md-4">
+      <h1>易經卜卦</h1>
+      <p class="lead">說明：想好問題之後，按六下按鈕</p>
+    </div>
     <div class="row justify-content-center">
       <div class="col-md-6 ball-group d-flex justify-content-center">
         <div

@@ -1,25 +1,25 @@
 <template>
-  <div class="col col-md-3 col-lg-2">
-    <div class="row justify-content-center">
-      <div class="col-1 gua8 px-0">
-        <div class="gua8-text">
-          <div>{{ guaInfo.AboveGua.Name }}</div>
+  <div class="col-auto">
+    <div class="my-2">
+      <div class="gu8-group">
+        <div class="gua8-item-1">
+          <div class="gua8-text">
+            {{ guaInfo.AboveGua.Name }}
+          </div>
+          <div class="gua8-text">
+            {{ guaInfo.BelowGua.Name }}
+          </div>
         </div>
-        <div class="gua8-text">
-          <div>{{ guaInfo.BelowGua.Name }}</div>
+        <div class="gua8-item-2">
+          <GuaSingle
+            v-for="(item, index) in toBinary(guaInfo.GuaNumber)"
+            :key="index"
+            :gua="item"
+            :changed="toBinary(varianceNumber)[index]"
+          />
         </div>
       </div>
-      <div class="col gua-image">
-        <GuaSingle
-          v-for="(item, index) in toBinary(guaInfo.GuaNumber)"
-          :key="index"
-          :gua="item"
-          :changed="toBinary(varianceNumber)[index]"
-        />
-      </div>
-    </div>
-    <div class="row justify-content-center mt-2">
-      <div class="offset-1 col gua-title text-center fs-6">
+      <div class="gua-title text-center">
         #{{ guaInfo.GuaOrder }} {{ guaInfo.Name }}
       </div>
     </div>
@@ -37,22 +37,15 @@ export default defineComponent({
   props: {
     guaInfo: {
       type: Object as PropType<Gua64Type>,
-      required: true
+      required: true,
     },
     varianceNumber: {
-      type:  Number,
-      required: true
+      type: Number,
+      required: true,
     },
   },
   setup(props) {
-    // const varianceNumberArray = computed(() => {
-    //   if (props.varianceNumber != undefined) {
-    //     return toBinary(props.varianceNumber)
-    //   }
-    //   return null
-    // })
     return {
-      // varianceNumberArray,
       toBinary,
     }
   },
@@ -60,29 +53,39 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-*{
-  // border: 1px grey solid;
-}
-.gua8 {
+$gua-container: 100px;
+$gua-width: 80%;
+$gua-text: 20%;
+
+.gu8-group {
+  width: $gua-container;
+  // min-width: 100px;
   height: auto;
+  display: flex;
+  justify-content: space-between;
 }
-.gua-image{
-  max-width: 100px;
+
+.gua8-item-2 {
+  width: $gua-width;
+  min-width: 50px;
+}
+
+.gua8-item-1 {
+  width: $gua-text;
+  min-width: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 .gua8-text {
-  position: relative;
-  width: 100%;
-  div {
-    position: absolute;
-    top: 50%;
-    right: 5px;
-    transform: translateY(-45%);
-    margin-top: 2px;
-    color: green;
-  }
-  height: 45%;
+  text-align: center;
+  color: green;
 }
 .gua-title {
+  position: relative;
+  left: 10px;
+  width: $gua-width;
+  min-width: 100px;
   padding: 0;
   color: blue;
 }
