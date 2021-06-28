@@ -4,8 +4,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Divination-test/css/about.c84da9f9.css"
   },
   {
-    "revision": "f585e91d4e19f9f4381d",
-    "url": "/Divination-test/css/app.d7c276b8.css"
+    "revision": "5ff3d97c874b5de7a75f",
+    "url": "/Divination-test/css/app.e65e2710.css"
   },
   {
     "revision": "33501f461421988e7bee",
@@ -16,7 +16,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Divination-test/img/background.114c7a63.jpg"
   },
   {
-    "revision": "1363a98345acc5e90498e5a5a900db3c",
+    "revision": "7632e14fbbaf1b9116426f3f48b9444a",
     "url": "/Divination-test/index.html"
   },
   {
@@ -24,8 +24,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Divination-test/js/about.516e0548.js"
   },
   {
-    "revision": "f585e91d4e19f9f4381d",
-    "url": "/Divination-test/js/app.566fe1f9.js"
+    "revision": "5ff3d97c874b5de7a75f",
+    "url": "/Divination-test/js/app.cd798fae.js"
   },
   {
     "revision": "33501f461421988e7bee",
