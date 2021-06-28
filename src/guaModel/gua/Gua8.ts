@@ -29,8 +29,7 @@ export class Gua8{
             else if(typeof(args[0]) === "string"){
                 let name:string = args[0]
                 let i = 0
-                for(; i < Gua8.gua.length; i++){
-                    
+                for(; i < Gua8.gua.length; i++){                    
                     if (name == Gua8.gua[i]){
                         this.Name = name
                         this.GuaNumber = i
@@ -38,8 +37,7 @@ export class Gua8{
                         break;
                     }
                 }
-                if (i == Gua8.gua.length)
-                {
+                if (i == Gua8.gua.length){
                     throw new Error("Cannot find it in Gua8")
                 }
             }
