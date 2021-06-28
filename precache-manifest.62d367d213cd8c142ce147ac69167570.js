@@ -16,7 +16,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Divination-test/img/background.114c7a63.jpg"
   },
   {
-    "revision": "f3ce6bd37900a50c0156bb47a300a911",
+    "revision": "f5099208776acbcca95ea301c37aca9b",
     "url": "/Divination-test/index.html"
   },
   {
