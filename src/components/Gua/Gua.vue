@@ -14,7 +14,7 @@
           v-for="(item, index) in toBinary(guaInfo.GuaNumber)"
           :key="index"
           :gua="item"
-          :changed="varianceNumberArray[index]"
+          :changed="toBinary(varianceNumber)[index]"
         />
       </div>
     </div>
@@ -35,18 +35,24 @@ export default defineComponent({
     GuaSingle,
   },
   props: {
-    guaInfo: Object as PropType<Gua64Type>,
-    varianceNumber: Number,
+    guaInfo: {
+      type: Object as PropType<Gua64Type>,
+      required: true
+    },
+    varianceNumber: {
+      type:  Number,
+      required: true
+    },
   },
   setup(props) {
-    const varianceNumberArray = computed(() => {
-      if (props.varianceNumber != undefined) {
-        return toBinary(props.varianceNumber)
-      }
-      return null
-    })
+    // const varianceNumberArray = computed(() => {
+    //   if (props.varianceNumber != undefined) {
+    //     return toBinary(props.varianceNumber)
+    //   }
+    //   return null
+    // })
     return {
-      varianceNumberArray,
+      // varianceNumberArray,
       toBinary,
     }
   },

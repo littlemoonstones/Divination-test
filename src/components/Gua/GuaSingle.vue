@@ -19,16 +19,12 @@ export default defineComponent({
   props: {
       gua: String,
       changed: String
-  },
-  setup(props) {
-  },
+  }
 })
 </script>
 <style lang="scss" scoped>
 .gua {
-    // margin: 4px 0;
     margin-bottom: 5px;
-    // padding: 0;
   div {
     background: black;
     border-radius: 15px;
@@ -36,8 +32,6 @@ export default defineComponent({
   }
   .blank {
     background: transparent;
-    // width: 100%;
-    // max-width: 100px;
   }
 
   &.changed {

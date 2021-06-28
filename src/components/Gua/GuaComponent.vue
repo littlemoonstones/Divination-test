@@ -1,59 +1,33 @@
 <template>
-  <div v-if="presentGua" class="row my-4 my-md-5 justify-content-center">
+  <div v-if="GuaResult.PresentGua" class="row my-4 my-md-5 justify-content-center">
     <div class="row justify-content-center">
-      <Gua :guaInfo="presentGua" :varianceNumber="varianceNumber" />
-      <template v-if="varianceNumber != 0">
+      <Gua :guaInfo="GuaResult.PresentGua" :varianceNumber="GuaResult.varianceNumber" />
+      <template v-if="GuaResult.varianceNumber != 0">
         <div class="col-2 col-md-2 col-lg-1 arrow-center">
           <div class="">
             <i class="arrow right"></i>
           </div>
         </div>
-        <Gua :guaInfo="futureGua" :varianceNumber="varianceNumber" />
+        <Gua :guaInfo="GuaResult.FutureGua" :varianceNumber="GuaResult.varianceNumber" />
       </template>
     </div>
-    <template v-if="GuaResult.isSaved">
+    <template v-if="GuaResult.PresentGua">
       <div class="row my-2 my-md-3">
         <div class="col">
           <div class="row justify-content-center">
             <div class="col-auto text-end">本卦:</div>
             <div class="col-auto">
-              <a :href="link1" target="_blank">link</a>
+              <a :href="parseLink(GuaResult.PresentGua.GuaOrder)" target="_blank">link</a>
             </div>
           </div>
-          <template v-if="varianceNumber != 0">
+          <template v-if="GuaResult.varianceNumber != 0">
             <div class="row justify-content-center">
               <div class="col-auto text-end">變卦:</div>
               <div class="col-auto">
-                <a :href="link2" target="_blank">link</a>
+                <a :href="parseLink(GuaResult.FutureGua.GuaOrder)" target="_blank">link</a>
               </div>
             </div>
           </template>
-        </div>
-      </div>
-      <div class="row justify-content-center">
-        <div class="mb-3 row">
-          <label for="date" class="col-sm-2 col-form-label">Date</label>
-          <div class="col-sm-10">
-            <input
-              type="text"
-              readonly
-              class="form-control-plaintext"
-              id="date"
-              :value="GuaResult.date"
-            />
-          </div>
-          <div class="mb-3 row">
-            <label for="exampleFormControlTextarea1" class="form-label"
-              >Discription</label
-            >
-            <textarea
-              class="form-control"
-              id="exampleFormControlTextarea1"
-              rows="3"
-              v-model="GuaResult.discription"
-              readonly
-            ></textarea>
-          </div>
         </div>
       </div>
     </template>
@@ -61,8 +35,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType, ref } from "vue"
-import { Gua64 } from "@/guaModel/gua/Gua64"
-import { GuaResultType } from "@/type/GuaType"
+import { GuaResultType } from "@/guaModel/types"
 import Gua from "./Gua.vue"
 
 export default defineComponent({
@@ -76,23 +49,25 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const presentGua = ref<Gua64>(new Gua64(props.GuaResult!.presentGua))
-    const futureGua = ref<Gua64>(new Gua64(props.GuaResult!.futureGua))
-    const varianceNumber = ref<number>(props.GuaResult!.varianceNumber)
-    
-    const link1 = ref<string>("")
-    const link2 = ref<string>("")
+    console.log("GuaComponent", props.GuaResult)
+    // const presentGua = ref<Gua64>(new Gua64(props.GuaResult!.presentGua))
+    // const futureGua = ref<Gua64>(new Gua64(props.GuaResult!.futureGua))
+    // const varianceNumber = ref<number>(props.GuaResult!.varianceNumber)
+    // console.log("pro", presentGua.value, futureGua.value)
+    // const link1 = ref<string>("")
+    // const link2 = ref<string>("")
     const parseLink = (guaOrder: string)=>{
       return `https://www.golla.tw/sm/64gua/${42257-parseInt(guaOrder)}.html`
     }
-    link1.value = parseLink(presentGua.value.GuaOrder)
-    link2.value = parseLink(futureGua.value.GuaOrder)
+    // link1.value = parseLink(presentGua.value.GuaOrder)
+    // link2.value = parseLink(futureGua.value.GuaOrder)
     return {
-      presentGua,
-      futureGua,
-      varianceNumber,
-      link1,
-      link2
+      parseLink
+      // presentGua,
+      // futureGua,
+      // varianceNumber,
+      // link1,
+      // link2
     }
   },
 })

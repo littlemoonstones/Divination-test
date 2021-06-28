@@ -13,7 +13,7 @@ export interface Gua8Type {
   GuaOrder: string;
 }
 
-export interface GuaResultType{
+export interface GuaResultSaveType{
   id: string,
   date: string,
   presentGua: string;

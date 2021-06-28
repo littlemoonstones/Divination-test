@@ -16,7 +16,7 @@
           <tr
             v-for="(item, index) in items"
             :key="item.id"
-            @click="showGua(item.id)"
+            @click="clickGua(item.id)"
           >
             <th scope="row">{{ index }}</th>
             <td>{{ item.presentGua }}</td>
@@ -43,7 +43,7 @@
       <div class="modal-dialog modal-lg">
         <div v-if="GuaResult != null" class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="GuaPanelLabel">{{ GuaResult.date }}</h5>
+            <h5 class="modal-title" id="GuaPanelLabel">{{ GuaResultSave.date }}</h5>
             <button
               type="button"
               class="btn-close"
@@ -53,6 +53,7 @@
           </div>
           <div class="modal-body">
             <GuaComponent :GuaResult="GuaResult" />
+            <Discription :date="GuaResultSave.date" :discription="GuaResultSave.discription"/>
           </div>
           <div class="modal-footer">
             <button
@@ -69,17 +70,21 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue"
+import { computed, defineComponent, onMounted, ref } from "vue"
 import { openDB } from "idb"
 import moment from "moment"
-import { GuaResultType } from "../type/GuaType"
+import { GuaResultSaveType } from "@/type/GuaType"
+import { GuaResultType } from "@/guaModel/types"
+import { Gua64 } from "@/guaModel/gua/Gua64"
 import { Modal } from "bootstrap"
 import GuaComponent from "@/components/Gua/GuaComponent.vue"
+import Discription from "@/components/Discription.vue"
 
 export default defineComponent({
   name: "Records",
   components: {
     GuaComponent,
+    Discription
   },
   setup() {
     let modal: Modal | null = null
@@ -94,14 +99,14 @@ export default defineComponent({
         db.createObjectStore("save")
       },
     })
-    const items = ref<GuaResultType[] | null>(null)
+    const items = ref<GuaResultSaveType[] | null>(null)
     const getData = () => {
       dbPromise
         .then((db) => {
           return db.transaction("save").objectStore("save").getAll()
         })
         .then((d) => {
-          d.sort((a: GuaResultType, b: GuaResultType): number => {
+          d.sort((a: GuaResultSaveType, b: GuaResultSaveType): number => {
             let _a = moment(a.date, "YYYY/MM/DD, h:mm:ss a")
             let _b = moment(b.date, "YYYY/MM/DD, h:mm:ss a")
             return _b.diff(_a)
@@ -110,15 +115,25 @@ export default defineComponent({
         })
     }
     getData()
+    const GuaResultSave = ref<GuaResultSaveType | null>(null)
     const GuaResult = ref<GuaResultType | null>(null)
-    const showGua = (id: string) => {
+    
+    const GuaResultToNormal = (GuaResultSave: GuaResultSaveType): GuaResultType=>{
+      return {
+        PresentGua: new Gua64(parseInt(GuaResultSave.presentGua)),
+        FutureGua: new Gua64(parseInt(GuaResultSave.futureGua)),
+        varianceNumber: GuaResultSave.varianceNumber
+      }
+    }
+    const clickGua = (id: string) => {
       dbPromise
         .then((db) => {
           return db.transaction("save").objectStore("save").get(id)
         })
-        .then((d: GuaResultType) => {
-          GuaResult.value = d
-          console.log(d)
+        .then((d: GuaResultSaveType) => {
+          GuaResultSave.value = d
+          GuaResult.value = GuaResultToNormal(d)
+          // console.log(d)
           modal?.show()
         })
     }
@@ -135,8 +150,9 @@ export default defineComponent({
     }
     return {
       items,
+      GuaResultSave,
       GuaResult,
-      showGua,
+      clickGua,
       clearAll,
     }
   },

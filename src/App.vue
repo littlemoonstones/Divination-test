@@ -1,8 +1,9 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <router-link class="navbar-brand" :to="{ name: 'Home' }"
-              replace>易經占卜</router-link>
+      <router-link class="navbar-brand" :to="{ name: 'Home' }" replace
+        >易經占卜</router-link
+      >
       <button
         class="navbar-toggler"
         type="button"
@@ -16,31 +17,51 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'Home' }"
-              replace>首頁</router-link
-            >
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'Divination' }"
-              replace>卜卦</router-link
-            >
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'Records' }"
-              replace>記錄</router-link
-            >
+          <li v-for="path in paths" :key="path.name" class="nav-item">
+            <router-link class="nav-link" :to="{ name: path.name }" replace>
+              {{ path.text }}
+            </router-link>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+  <!-- <img src="./assets/background.jpg" alt=""> -->
   <router-view v-slot="{ Component }">
-    <keep-alive include="Divination">
-        <component :is="Component" />
+    <keep-alive include="IChing,Plum">
+      <component :is="Component" />
     </keep-alive>
   </router-view>
 </template>
+<script lang="ts">
+import { defineComponent, reactive } from "vue"
+
+export default defineComponent({
+  setup() {
+    const paths = reactive([
+      {
+        name: "Home",
+        text: "首頁",
+      },
+      {
+        name: "IChing",
+        text: "卜卦",
+      },
+      {
+        name: "Plum",
+        text: "梅花易",
+      },
+      {
+        name: "Records",
+        text: "記錄",
+      },
+    ])
+    return {
+      paths,
+    }
+  },
+})
+</script>
 
 <style lang="scss" scoped>
 #app {
