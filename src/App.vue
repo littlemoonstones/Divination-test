@@ -18,7 +18,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li v-for="path in paths" :key="path.name" class="nav-item">
-            <router-link class="nav-link" :to="{ name: path.name }" replace>
+            <router-link class="nav-link" :to="{ name: path.name }" :replace="path.isReplace">
               {{ path.text }}
             </router-link>
           </li>
@@ -42,22 +42,27 @@ export default defineComponent({
       {
         name: "Home",
         text: "首頁",
+        isReplace: false
       },
       {
         name: "IChing",
         text: "卜卦",
+        isReplace: true
       },
       {
         name: "Plum",
         text: "梅花易",
+        isReplace: true
       },
       {
         name: "Records",
         text: "記錄",
+        isReplace: false
       },
       {
         name: "64gua",
         text: "六十四卦",
+        isReplace: false
       },
     ])
     return {
